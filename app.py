@@ -36,10 +36,12 @@ def require_api_key(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         provided_key = request.headers.get("X-API-Key")
-        if provided_key and provided_key == app.config["API_KEY"]:
-            return f(*args, **kwargs)
+        if not provided_key:
+            return jsonify({"error": "Missing API key"}), 401
+        elif not provided_key == app.config["API_KEY"]:
+            return jsonify({"error": "Invalid API key"}), 401
         else:
-            return jsonify({"error": "Invalid or missing API key"}), 401
+            return f(*args, **kwargs)
 
     return decorated
 
@@ -86,6 +88,18 @@ def process_image(image: Image, conf_thresh=0.5):
 app = create_app()
 
 
+@app.route("/foo", methods=["POST"])
+def foo():
+    data = request.json
+    return jsonify(data)
+
+
+@app.route("/bar", methods=["POST"])
+def bar():
+    headers = request.headers
+    return jsonify(headers)
+
+
 @app.route("/predict", methods=["POST"])
 @require_api_key
 def predict():
@@ -103,6 +117,7 @@ def predict():
 
 
 @app.route("/predict_file", methods=["POST"])
+@require_api_key
 def predict_file():
     if "image" not in request.files:
         return jsonify({"error": "No image file provided"}), 400
