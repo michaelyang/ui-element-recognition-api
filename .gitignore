@@ -1,0 +1,10 @@
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+.env
+
+# Large files
+model/
+metadata/
