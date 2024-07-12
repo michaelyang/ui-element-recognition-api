@@ -15,6 +15,6 @@ COPY . .
 # RUN gdown https://drive.google.com/uc?id=14BjYnwyWhHK8APpWLHj9J7SgoHBLjrMb -O /app/model/screenrecognition-web350k-vins.torchscript
 # RUN gdown https://drive.google.com/uc?id=YOUR_CLASS_MAP_FILE_ID -O /app/metadata/class_map_vins_manual.json
 
-EXPOSE 8080
+ENV PYTHONUNBUFFERED 1
 
 CMD ["python", "app.py"]

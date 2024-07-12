@@ -8,6 +8,7 @@ import io
 import base64
 import os
 from config import ProductionConfig, DevelopmentConfig
+from waitress import serve
 
 
 def create_app():
@@ -54,7 +55,6 @@ with open(class_map_path, "r") as f:
     class_map = json.load(f)
 
 idx2Label = class_map["idx2Label"]
-print(idx2Label)
 
 
 def process_image(image: Image, conf_thresh=0.5):
@@ -68,7 +68,6 @@ def process_image(image: Image, conf_thresh=0.5):
     # Make prediction
     with torch.no_grad():
         pred = m([img_input])[1]
-        print(pred)
 
     # Process results
     results = []
@@ -125,4 +124,5 @@ if __name__ == "__main__":
     print("Registered routes:")
     for rule in app.url_map.iter_rules():
         print(f"{rule.endpoint}: {rule.methods} {rule.rule}")
-    app.run(host="0.0.0.0", port=8080)
+    port = os.environ.get("PORT", 8080)
+    serve(app, host="0.0.0.0", port=port)
