@@ -53,3 +53,31 @@ curl -X POST -H "X-API-Key: your_api_key" -H "Content-Type: application/json"
    ```
    docker run --env-file .env -p 8080:8080 ui-element-recognition-api
    ```
+
+## Deploy
+
+1. Login to Gitlab CLI
+
+   ```
+   docker login registry.gitlab.com
+   ```
+
+2. Build (Render only supports images built with the platform `linux/amd64`, which is significantly larger/slower)
+
+   ```
+   docker build --platform=linux/amd64 -t registry.gitlab.com/it-is-what-it-is/it-is-what-it-is .
+   ```
+
+3. Add image to resgistry
+
+   ```
+   docker push registry.gitlab.com/it-is-what-it-is/it-is-what-it-is
+   ```
+
+4. Create an Access Token with `read_registry` permission
+
+5. Copy the URL for the registry and add the credentials on Render
+
+6. Set Environment Variables
+
+7. Deploy!
