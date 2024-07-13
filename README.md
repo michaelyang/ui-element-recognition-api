@@ -30,8 +30,39 @@ curl -X POST -H "X-API-Key: your_api_key" -H "Content-Type: application/json"
 
 ## Setup
 
+### Local
+
 1. Clone the repo
 2. Create a `.env` file in project root with:
+
+   ```
+   API_KEY=your_api_key
+   ```
+
+3. Download the files and place it in `model/` and `metadata/` respectively
+
+4. Create a virtual envionment
+
+   ```
+   pipenv shell
+   ```
+
+5. Install requirements
+
+   ```
+   pipenv install -r requirements.txt
+   ```
+
+6. Run the script
+
+   ```
+   python app.py
+   ```
+
+### Docker
+
+1. Clone the repo
+2. Create a `.env` file in project root
 
    ```
    API_KEY=your_api_key
@@ -42,19 +73,19 @@ curl -X POST -H "X-API-Key: your_api_key" -H "Content-Type: application/json"
    - Download the files and place it in `model/` and `metadata/` respectively
    - Uncomment the download lines in Dockerfile
 
-4. Build the Docker image:
+4. Build the Docker image
 
    ```
    docker build --no-cache -t ui-element-recognition-api .
    ```
 
-5. Run the container:
+5. Run the container
 
    ```
    docker run --env-file .env -p 8080:8080 ui-element-recognition-api
    ```
 
-## Deploy
+## Deploy to Render
 
 1. Login to Gitlab CLI
 
@@ -81,3 +112,24 @@ curl -X POST -H "X-API-Key: your_api_key" -H "Content-Type: application/json"
 6. Set Environment Variables
 
 7. Deploy!
+
+## Deploy to Fly.io
+
+1. Install `flyctl`
+
+   ```
+   brew install flyctl
+   ```
+
+2. Login to Fly.io
+
+   ```
+   fly auth login
+   ```
+
+3. Deploy from source directory
+
+   ```
+   fly launch # for first deploy
+   fly deploy # for redeploys
+   ```

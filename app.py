@@ -20,13 +20,13 @@ def create_app():
     env = os.environ.get("FLASK_ENV")
     if env == "production":
         print("🏠 In production mode")
-        app.config.from_object(ProductionConfig)
+        app.config.from_object(ProductionConfig())
     elif env == "development":
         print("🛠️ In development mode")
-        app.config.from_object(DevelopmentConfig)
+        app.config.from_object(DevelopmentConfig())
     else:
         print(f"❓ Warning: Invalid FLASK_ENV '{env}'. Defaulting to production.")
-        app.config.from_object(ProductionConfig)
+        app.config.from_object(ProductionConfig())
 
     print(f"🧪 Flask app created in {env} mode")
     return app
@@ -86,18 +86,6 @@ def process_image(image: Image, conf_thresh=0.5):
 
 
 app = create_app()
-
-
-@app.route("/foo", methods=["POST"])
-def foo():
-    data = request.json
-    return jsonify(data)
-
-
-@app.route("/bar", methods=["POST"])
-def bar():
-    headers = request.headers
-    return jsonify(headers)
 
 
 @app.route("/predict", methods=["POST"])
