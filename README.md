@@ -127,7 +127,14 @@ curl -X POST -H "X-API-Key: your_api_key" -H "Content-Type: application/json"
    fly auth login
    ```
 
-3. Deploy from source directory
+3. Set secrets
+
+   ```
+   fly secrets set FLASK_ENV=production
+   fly secrets set API_KEY=...
+   ```
+
+4. Deploy from source directory
 
    ```
    fly launch # for first deploy
